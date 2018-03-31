@@ -1,6 +1,11 @@
-#Using Python library Pillow
-from PIL import Image
+# import the necessary packages
+from matplotlib import pyplot as plt
+import numpy as np
+import cv2
 
-#Convert Image to Grayscale
-img = Image.open('testimg.jpg').convert('LA')
-img.save('testimgConvr.png')
+#Load the image 
+image = cv2.imread("testimg.jpg")
+
+# convert the image to grayscale
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2.imwrite('testimgGray.png',gray)
