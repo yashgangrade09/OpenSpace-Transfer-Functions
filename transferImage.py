@@ -1,23 +1,61 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
-from PIL import Image
+import math
+from numpy import linalg as LA
 
-# Reading In Files
-srclg = cv2.imread("color_bar_legend.png")
+#Search for Pixel In Legend
+def searchPixel(lg, curPix):
+    if curPix[0] <= 20 and curPix[1] <= 20 and curPix[2] <= 20:
+        return 0
+    
+    bestindex = 0
+    best = LA.norm(np.array([[ int(lg[0][0][0])-int(curPix[0]), int(lg[0][0][1])-int(curPix[1]), int(lg[0][0][2])-int(curPix[2])   ]] ))
+   
+    for x in range(235):
+        if lg[0][x][0] == curPix[0] and lg[0][x][1] == curPix[1] and lg[0][x][2] == curPix[2]:
+            return math.floor(x / 235 * 255)
+        
+        bestTest = LA.norm(np.array([[ int(lg[0][x][0])-int(curPix[0]), int(lg[0][x][1])-int(curPix[1]), int(lg[0][x][2])-int(curPix[2])   ]] ))
+        if best > bestTest :
+            bestindex = x
+            best = bestTest
+                
+    return math.floor((bestindex / 235) * 255)
+
+    
+#Reading In Files
+srclg = cv2.imread("color_bar_legendv2.png")
 srcImg = cv2.imread("day_temperature_2018-03-23.png")
 
+#Loop Over Pixels
 conImg = []
-for i in range(864):
+for i in range(250):
     conImg.append([])
-    for j in range(848):
-        conImg[i].append(int( round(srcImg[i][j][0]*0.21 + srcImg[i][j][1]*0.72 + srcImg[i][j][2]*0.07)) )
+    for j in range(250):
+        conImg[i].append( searchPixel(srclg, srcImg[i][j]) )      
         
-conImg = np.asarray(conImg)        
-
-
-#plt.imshow(conImg, cmap='gray')
-#plt.savefig('convImg.png')
-
-
+conImg = np.asarray(conImg)  
 cv2.imwrite('convImg.png', conImg)
+print("Done")
+
+
+
+#===========================OLD CODE============================
+## Reading In Files
+#srclg = cv2.imread("color_bar_legend.png")
+#srcImg = cv2.imread("day_temperature_2018-03-23.png")
+#
+#conImg = []
+#for i in range(864):
+#    conImg.append([])
+#    for j in range(848):
+#        conImg[i].append(int( round(srcImg[i][j][0]*0.21 + srcImg[i][j][1]*0.72 + srcImg[i][j][2]*0.07)) )
+#        
+#conImg = np.asarray(conImg)        
+#
+#
+##plt.imshow(conImg, cmap='gray')
+##plt.savefig('convImg.png')
+#
+#
+#cv2.imwrite('convImg.png', conImg)
