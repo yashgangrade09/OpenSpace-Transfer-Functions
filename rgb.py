@@ -6,7 +6,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import timeit
+#import PIL.Image
 from PIL import Image
+import cv2
 
 def pil_test():
     cm_hot = mpl.cm.get_cmap('hot')
@@ -21,17 +23,38 @@ def pil_test():
     cm_jet = mpl.cm.get_cmap('jet')
 
     #img_src = Image.open('Jupiter_Globe.jpg').convert('L')
-    image_name = "space"
-    img_src = Image.open(image_name + ".jpg").convert('L')
+    image_name = "day_temperature_2018-03-23"
+
+    """img_src = Image.open(image_name + ".png").convert('L')
     width, height = img_src.size
     img_src.thumbnail((width, height))
     im = np.array(img_src)
+    print(im.shape)
+    print(im)
+    '''for i in im:
+        for j in i:
+            if int(j) != 0:
+                print(j)'''
     im9 = cm_grey(im)
-    save_Image(im9, image_name + "_grey.png")
+    save_Image(im9, image_name + "_grey.png")"""
+    srcImg = cv2.imread(image_name + ".png")
 
+    conImg = []
+    for i in range(864):
+        conImg.append([])
+        for j in range(848):
+            conImg[i].append(int(round(srcImg[i][j][0] * 0.21 + srcImg[i][j][1] * 0.72 + srcImg[i][j][2] * 0.07)))
+
+    conImg = np.asarray(conImg)
+
+    # plt.imshow(conImg, cmap='gray')
+    # plt.savefig('convImg.png')
+
+    cv2.imwrite(image_name + "_grey.png", conImg)
 
 
     img_src = Image.open(image_name + "_grey.png").convert('L')
+    width, height = img_src.size
     img_src.thumbnail((width, height))
     im = np.array(img_src)
 
@@ -63,10 +86,10 @@ def save_Image(im, image_name):
     im = Image.fromarray(im)
     im.save(image_name)
 
-"""def rgb2gray(rgb):
+def rgb2gray(rgb):
     return np.dot(rgb[:, :, :3], [0.299, 0.587, 0.114])
 
-def plt_test():
+"""def plt_test():
     img_src = mpimg.imread('testimgGray.png')
     im = rgb2gray(img_src)
     f = plt.figure(figsize=(4, 4), dpi=128)
