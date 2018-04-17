@@ -23,7 +23,6 @@ def pil_test():
     cm_jet = mpl.cm.get_cmap('jet')
 
     #img_src = Image.open('Jupiter_Globe.jpg').convert('L')
-    image_name = "day_temperature_2018-03-23"
 
     """img_src = Image.open(image_name + ".png").convert('L')
     width, height = img_src.size
@@ -36,7 +35,7 @@ def pil_test():
             if int(j) != 0:
                 print(j)'''
     im9 = cm_grey(im)
-    save_Image(im9, image_name + "_grey.png")"""
+    save_Image(im9, image_name + "_grey.png")
     srcImg = cv2.imread(image_name + ".png")
 
     conImg = []
@@ -50,14 +49,24 @@ def pil_test():
     # plt.imshow(conImg, cmap='gray')
     # plt.savefig('convImg.png')
 
-    cv2.imwrite(image_name + "_grey.png", conImg)
+    cv2.imwrite(image_name + "_grey.png", conImg)"""
 
+    image_name = "EntireWorld_Temperature_Day"
 
-    img_src = Image.open(image_name + "_grey.png").convert('L')
+    #To change the original image to greyscale using matplotlib
+    """img_src = Image.open(image_name + ".PNG").convert('L')
     width, height = img_src.size
     img_src.thumbnail((width, height))
-    im = np.array(img_src)
+    im = np.array(img_src)     
+    im9 = cm_grey(im)
+    save_Image(im9, image_name + "_grey.png")
+    #srcImg = cv2.imread(image_name + ".png")"""
 
+
+    img_src = Image.open(image_name + "_Grayscale.png").convert('L')
+    width, height = img_src.size
+    img_src.thumbnail((width, height))
+    im = np.array(img_src) 
 
     im2 = cm_purples(im)
     im3 = cm_cool(im)
@@ -66,6 +75,7 @@ def pil_test():
     im6 = cm_summer(im)
     im7 = cm_autumn(im)
     im8 = cm_winter(im)
+    im9 = cm_grey(im)
     im10 = cm_hsv(im)
     im11 = cm_jet(im)
 
@@ -77,6 +87,7 @@ def pil_test():
     save_Image(im6, image_name + "_summer.png")
     save_Image(im7, image_name + "_autumn.png")
     save_Image(im8, image_name + "_winter.png")
+    save_Image(im9, image_name + "_grey.png")
     save_Image(im10, image_name + "_hsv.png")
     save_Image(im11, image_name + "_jet.png")
 
