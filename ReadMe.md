@@ -1,0 +1,1 @@
+The code is contained in the four files namely rgb.py which involves conversion of grayscale to rgb using Pillow, colormaps.py which applies color maps to the processed gray scale images, transferimage.py uses the concept of L1-distance norm to map the colored image to grayscale. 
